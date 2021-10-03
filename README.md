@@ -51,9 +51,9 @@ with several Instruction Set, Memory, I/O Architectures supported.
 # Testing
 git clone https://github.com/dariaomelkina/poc_project
 # Assembler:
-python3 modules/assembler.py -f modules/program_examples/assembly_test.asm --isa RISC3
+python3 modules/assembler.py -f modules/program_examples/assembly_test.asm --isa RISC
 # Simulator:
-python3 modules/simulator.py --file modules/program_examples/assembly_test6.bin --isa RISC3 --architecture neumann --output special
+python3 modules/simulator.py --file modules/program_examples/assembly_test6.bin --isa RISC --architecture neumann --output special
 # Fork, Edit and open Pull Requests or Issues
 ```
 
