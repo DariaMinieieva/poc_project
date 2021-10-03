@@ -48,7 +48,8 @@ import json
 import argparse
 from collections import defaultdict
 
-from modules.functions import twos_complement
+# changed here
+from functions import twos_complement
 
 
 class AssemblerCLI:
@@ -62,9 +63,10 @@ class AssemblerCLI:
         """
         # Creating the command line parser and main arguments
         parser = argparse.ArgumentParser()
-        parser.add_argument("-f", "--file", help="provide the assembly program filepath")
-        parser.add_argument("--isa", help="specify the ISA architecture: RISC1 (Stack), "
-                                          "RISC2 (Accumulator), RISC3 (Register), CISC (Register)")
+        parser.add_argument(
+            "-f", "--file", help="provide the assembly program filepath")
+        parser.add_argument("--isa", help="specify the ISA architecture: Stack, "
+                                          "Accumulator, RISC (Register), CISC (Register)")
         parser.add_argument("-o", "--output", help="Specify the output file")
 
         # Parsing the command line arguments
@@ -75,9 +77,10 @@ class AssemblerCLI:
             raise AssemblerError("Assembly program filepath not provided")
 
         # Check if the ISA is provided and actually exists
-        valid_isa = ['risc1', 'risc2', 'risc3', 'cisc']
+        valid_isa = ['stack', 'accumulator', 'risc', 'cisc']
         if not args.isa or args.isa.lower() not in valid_isa:
-            raise AssemblerError("Specify the valid instruction set architecture")
+            raise AssemblerError(
+                "Specify the valid instruction set architecture")
 
         # Read the program text
         with open(args.file, "r") as file:
@@ -123,12 +126,15 @@ class Assembler:
         # Open the list of registers for this architecture and format it properly
         with open(os.path.join("modules", "registers.json"), "r") as file:
             registers = json.load(file)[isa]
-            self.register_names = {register[0]: register[2] for register in registers}
+            self.register_names = {
+                register[0]: register[2] for register in registers}
 
         # Determining the size of the instructions to read
-        instruction_sizes = {"risc1": (6, 6), "risc2": (8, 8), "risc3": (16, 6), "cisc": (8, 8)}
+        instruction_sizes = {"stack": (6, 6), "accumulator": (
+            8, 8), "risc": (16, 6), "cisc": (8, 8)}
         self.instruction_size = instruction_sizes[isa]
-        self.jump_label_allowed = ["jmp", "call", "je", "jne", "jl", "jle", "jg", "jge", "jc"]
+        self.jump_label_allowed = ["jmp", "call",
+                                   "je", "jne", "jl", "jle", "jg", "jge", "jc"]
         self.mov_label_allowed = ["mov", "load", "store", "push", "mov_low", "mov_high", "cmp", "cmpe", "cmpb", "mul",
                                   "div"]
 
@@ -161,13 +167,15 @@ class Assembler:
             # Split instruction name and operands
             binary_line = ""
             arguments = line.split()
-            assembly_instruction, operands = arguments[0], ''.join(arguments[1:]).split(',')
+            assembly_instruction, operands = arguments[0], ''.join(
+                arguments[1:]).split(',')
             if len(operands) == 1 and operands[0] == '':
                 operands = []
 
             # Check if the instruction actually exists for this architecture
             if assembly_instruction not in self.instructions:
-                raise AssemblerError(f"Not valid assembly instruction: {assembly_instruction}")
+                raise AssemblerError(
+                    f"Not valid assembly instruction: {assembly_instruction}")
 
             # Get the list of encodings for this assembly instruction
             instructions_info = self.instructions[assembly_instruction]
@@ -181,14 +189,16 @@ class Assembler:
                     if assembly_instruction in ["mov_low", "mov_high"] and len(instruction_info[0]) != 5:
                         instruction_info[0] = instruction_info[0][:-1]
 
-                    binary_line = self.__encode_operands(operands, instruction_info, assembly_instruction, index)
+                    binary_line = self.__encode_operands(
+                        operands, instruction_info, assembly_instruction, index)
                     break
                 except AssemblerError:
                     continue
 
             # If all of the opcode options were wrong, raise the error
             if not binary_line:
-                raise AssemblerError(f"Provide valid operands for this instruction: {line}")
+                raise AssemblerError(
+                    f"Provide valid operands for this instruction: {line}")
 
             binary_code += binary_line + "\n"
 
@@ -218,7 +228,8 @@ class Assembler:
                 if not words[0].isalnum():
                     raise AssemblerError(f"Provide valid label: {line}")
                 if words[0] in self.jump_labels or words[0] in self.mov_labels:
-                    raise AssemblerError(f"Labels can not be reassigned or duplicated: {line}")
+                    raise AssemblerError(
+                        f"Labels can not be reassigned or duplicated: {line}")
 
                 # If only the label is mentioned, it specifies a jump location and points to the next instruction
                 if len(words) == 1:
@@ -227,11 +238,14 @@ class Assembler:
                 # If the label is mentioned with directive specification and its value, we have to encode it into memory
                 elif len(words) == 3:
                     if words[1] == "db":
-                        self.mov_labels[words[0]] = self.__decode_directive(True, words[2])
+                        self.mov_labels[words[0]] = self.__decode_directive(
+                            True, words[2])
                     elif words[1] == "dw":
-                        self.mov_labels[words[0]] = self.__decode_directive(False, words[2])
+                        self.mov_labels[words[0]] = self.__decode_directive(
+                            False, words[2])
                     else:
-                        raise AssemblerError("Provide a valid assembly directive")
+                        raise AssemblerError(
+                            "Provide a valid assembly directive")
 
                 # Else, it's a wrong format of the directive
                 else:
@@ -282,7 +296,8 @@ class Assembler:
                     if 0 <= number <= 255:
                         result.append(number)
                     else:
-                        raise AssemblerError("Provide a valid assembly directive operand")
+                        raise AssemblerError(
+                            "Provide a valid assembly directive operand")
 
                 # Else, just figure out the ASCII code of the character and remember it
                 else:
@@ -314,7 +329,8 @@ class Assembler:
             immediate_bytes = ""
 
         if len(operands) != len(types):
-            raise AssemblerError(f"Provide valid operands for this instruction: {self.line}")
+            raise AssemblerError(
+                f"Provide valid operands for this instruction: {self.line}")
 
         # TODO: This probably could be moved to a separate function to allow for normal recursion calls
 
@@ -343,7 +359,8 @@ class Assembler:
 
                     # Check if the size of the number is valid
                     if not (-1 * 2 ** 15 < offset_op < 2 ** 15):
-                        raise AssemblerError(f"Immediate constant provided too big: {self.line}")
+                        raise AssemblerError(
+                            f"Immediate constant provided too big: {self.line}")
 
                     if operand_sign == "-":
                         offset_op = -1 * offset_op
@@ -376,7 +393,8 @@ class Assembler:
                             value = self.mov_labels[label_check]
                             if isinstance(value, int):
                                 if num_start != -1:
-                                    raise AssemblerError("Provide valid assembly directives")
+                                    raise AssemblerError(
+                                        "Provide valid assembly directives")
                                 offset_op = value
                             elif isinstance(value, list):
                                 if num_start == -1:
@@ -384,15 +402,18 @@ class Assembler:
                                 else:
                                     mov_index = int(operand[num_start + 1:])
                                     if not (0 <= mov_index < len(value)):
-                                        raise AssemblerError("Provide a valid assembly directive offset")
+                                        raise AssemblerError(
+                                            "Provide a valid assembly directive offset")
                                     num = value[mov_index]
                         else:
-                            raise AssemblerError("Provide valid assembly directives")
+                            raise AssemblerError(
+                                "Provide valid assembly directives")
                     register_byte += self.register_names[reg_op[1:]]
 
                     # Check if the size of the number is valid
                     if not (-1 * 2 ** 15 < offset_op < 2 ** 15):
-                        raise AssemblerError(f"Immediate constant provided too big: {self.line}")
+                        raise AssemblerError(
+                            f"Immediate constant provided too big: {self.line}")
 
                     if operand_sign == "-":
                         offset_op = -1 * offset_op
@@ -403,7 +424,8 @@ class Assembler:
                 elif op_type.startswith("imm"):
                     operand = operand.replace(" ", "")
                     num_start = operand.find("$")
-                    label_check = operand[1:] if num_start == -1 else operand[1:num_start - 1]
+                    label_check = operand[1:] if num_start == - \
+                        1 else operand[1:num_start - 1]
 
                     # Decode the label if it's mentioned, otherwise read the number from the assembly instruction
                     # There are two possible types of labels:
@@ -411,13 +433,15 @@ class Assembler:
                     # * the other references a location in memory, and might also include offsets, we encode bytes or words
                     if instruction_name in self.jump_label_allowed and operand.startswith(
                             ".") and label_check in self.jump_labels:
-                        num = (self.jump_labels[label_check] - instruction_index)
+                        num = (
+                            self.jump_labels[label_check] - instruction_index)
                     elif instruction_name in self.mov_label_allowed and operand.startswith(
                             ".") and label_check in self.mov_labels:
                         value = self.mov_labels[label_check]
                         if isinstance(value, int):
                             if num_start != -1:
-                                raise AssemblerError("Provide valid assembly directives")
+                                raise AssemblerError(
+                                    "Provide valid assembly directives")
                             num = value
                         elif isinstance(value, list):
                             if num_start == -1:
@@ -425,21 +449,24 @@ class Assembler:
                             else:
                                 mov_index = int(operand[num_start + 1:])
                                 if not (0 <= mov_index < len(value)):
-                                    raise AssemblerError("Provide a valid assembly directive offset")
+                                    raise AssemblerError(
+                                        "Provide a valid assembly directive offset")
                                 num = value[mov_index]
                     else:
                         num = int(operand[1:])
 
-                    # RISC-Stack has to divide the number into two 6-bit bytes
-                    # RISC-Accumulator and CISC have to divide the number into two 8-bit bytes
+                    # Stack has to divide the number into two 6-bit bytes
+                    # Accumulator and CISC have to divide the number into two 8-bit bytes
                     # Immediate constant length is undefined for Risc-Register architecture,
                     # and thus is set for every instruction
-                    bit_lengths = {"risc1": "12", "risc2": "16", "risc3": op_type[3:], "cisc": "16"}
+                    bit_lengths = {"stack": "12", "accumulator": "16",
+                                   "risc": op_type[3:], "cisc": "16"}
                     bit_len = int(bit_lengths[self.isa])
 
                     # Check if the size of the number is valid
                     if not (-1 * 2 ** (bit_len - 1) < num < 2 ** (bit_len - 1)):
-                        raise AssemblerError(f"Immediate constant provided too big: {self.line}")
+                        raise AssemblerError(
+                            f"Immediate constant provided too big: {self.line}")
 
                     encoded_number = self.__encode_number(num, bit_len)
 
@@ -449,7 +476,8 @@ class Assembler:
                         binary_line += encoded_number
 
             else:
-                raise AssemblerError(f"Provide valid operands for this instruction: {self.line}")
+                raise AssemblerError(
+                    f"Provide valid operands for this instruction: {self.line}")
 
         if self.isa == "cisc":
             if register_byte:
@@ -523,9 +551,11 @@ class Assembler:
         # Valid labels are also allowed, they should appear anywhere in the program and start with a '.'
         # Labels are of two types: specifying the jump offset, or some value from the macro value in memory
         elif op_type.startswith("imm"):
-            result = [assembly_op.startswith("$") and self.__is_number(assembly_op[1:])]
+            result = [assembly_op.startswith(
+                "$") and self.__is_number(assembly_op[1:])]
             if instruction_name in self.jump_label_allowed:
-                result.append(assembly_op.startswith(".") and assembly_op[1:] in self.jump_labels)
+                result.append(assembly_op.startswith(
+                    ".") and assembly_op[1:] in self.jump_labels)
             if instruction_name in self.mov_label_allowed:
                 result.append(assembly_op.startswith(".") and
                               (assembly_op[1:] in self.mov_labels or self.__valid_type(assembly_op, "regoff",
@@ -536,7 +566,7 @@ class Assembler:
     @staticmethod
     def __encode_number(number, length):
         """
-        Encodes the number in the next two bytes of different sizes for RISC-Register and RISC-Stack architectures
+        Encodes the number in the next two bytes of different sizes for RISC-Register and Stack architectures
         :param number: int, the actual number to encode
         :param length: int, the length of two bytes of encoding for the architecture
         :return: str - two lines with encoded numbers of specified length

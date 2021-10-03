@@ -23,17 +23,19 @@ class Simulator:
         parser = argparse.ArgumentParser()
         parser.add_argument("--file", help="provide the binary code filepath")
         parser.add_argument("--isa",
-                            help="specify the ISA architecture: RISC1 (Stack), RISC2 (Accumulator), RISC3 (Register), CISC (Register)")
+                            help="specify the ISA architecture: Stack, Accumulator, RISC (Register), CISC (Register)")
         parser.add_argument("--architecture",
                             help="specify the data/program architecture: neumann, harvard, harvardm")
-        parser.add_argument("--output", help="specify the type of I/O: mmio, special")
-        parser.add_argument("--program_start", help="provide the program_start for the instructions in the memory")
+        parser.add_argument(
+            "--output", help="specify the type of I/O: mmio, special")
+        parser.add_argument(
+            "--program_start", help="provide the program_start for the instructions in the memory")
 
         # Parsing the command line arguments
         args = parser.parse_args()
 
         # Lists of valid architecture types
-        valid_isa = ['risc1', 'risc2', 'risc3', 'cisc']
+        valid_isa = ['stack', 'accumulator', 'risc', 'cisc']
         valid_architectures = ['neumann', 'harvard', 'harvardm']
         valid_io = ['mmio', 'special']
 
@@ -51,12 +53,15 @@ class Simulator:
             raise SimulatorError("Provide the type of ISA for simulation.")
 
         if not args.architecture or args.architecture.lower() not in valid_architectures:
-            raise SimulatorError("Provide the type of data/program architecture for simulation.")
+            raise SimulatorError(
+                "Provide the type of data/program architecture for simulation.")
 
         if not args.output or args.output.lower() not in valid_io:
-            raise SimulatorError("Provide the type of Input/Output architecture for simulation")
+            raise SimulatorError(
+                "Provide the type of Input/Output architecture for simulation")
 
-        CPU(args.isa.lower(), args.architecture.lower(), args.output.lower(), program_text, curses_mode=True)
+        CPU(args.isa.lower(), args.architecture.lower(),
+            args.output.lower(), program_text, curses_mode=True)
 
 
 if __name__ == '__main__':

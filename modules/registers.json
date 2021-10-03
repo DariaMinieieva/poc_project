@@ -1,36 +1,161 @@
 {
     "comments": "Each ISA architecture contains a list of registers for it, including: name, general_purpose bool, encoding",
-    "risc1": [
-        ["FR", 0, "000", "Flag Register"],
-        ["SP", 0, "001", "Stack Pointer"],
-        ["IP", 0, "010", "Instruction Pointer"],
-        ["TOS", 1, "011", "Top Of the Stack pointer"]
+    "stack": [
+        [
+            "FR",
+            0,
+            "000",
+            "Flag Register"
+        ],
+        [
+            "SP",
+            0,
+            "001",
+            "Stack Pointer"
+        ],
+        [
+            "IP",
+            0,
+            "010",
+            "Instruction Pointer"
+        ],
+        [
+            "TOS",
+            1,
+            "011",
+            "Top Of the Stack pointer"
+        ]
     ],
-    "risc2": [
-        ["FR", 0, "000", "Flag Register"],
-        ["SP", 0, "001", "Stack Pointer"],
-        ["IP", 0, "010", "Instruction Pointer"],
-        ["IR", 0, "011", "Index Register"],
-        ["ACC", 1, "100", "Accumulator Register"]
+    "accumulator": [
+        [
+            "FR",
+            0,
+            "000",
+            "Flag Register"
+        ],
+        [
+            "SP",
+            0,
+            "001",
+            "Stack Pointer"
+        ],
+        [
+            "IP",
+            0,
+            "010",
+            "Instruction Pointer"
+        ],
+        [
+            "IR",
+            0,
+            "011",
+            "Index Register"
+        ],
+        [
+            "ACC",
+            1,
+            "100",
+            "Accumulator Register"
+        ]
     ],
-    "risc3": [
-        ["SP", 0, "100", "Stack Pointer"],
-        ["IP", 0, "101", "Instruction Pointer"],
-        ["LR", 0, "110", "Link Register"],
-        ["FR", 0, "111", "Flag Register"],
-        ["R00", 1, "000", "General-Purpose Register"],
-        ["R01", 1, "001", "General-Purpose Register"],
-        ["R02", 1, "010", "General-Purpose Register"],
-        ["R03", 1, "011", "General-Purpose Register"]
+    "risc": [
+        [
+            "SP",
+            0,
+            "100",
+            "Stack Pointer"
+        ],
+        [
+            "IP",
+            0,
+            "101",
+            "Instruction Pointer"
+        ],
+        [
+            "LR",
+            0,
+            "110",
+            "Link Register"
+        ],
+        [
+            "FR",
+            0,
+            "111",
+            "Flag Register"
+        ],
+        [
+            "R00",
+            1,
+            "000",
+            "General-Purpose Register"
+        ],
+        [
+            "R01",
+            1,
+            "001",
+            "General-Purpose Register"
+        ],
+        [
+            "R02",
+            1,
+            "010",
+            "General-Purpose Register"
+        ],
+        [
+            "R03",
+            1,
+            "011",
+            "General-Purpose Register"
+        ]
     ],
     "cisc": [
-        ["R00", 1, "000", "General-Purpose Register"],
-        ["R01", 1, "001", "General-Purpose Register"],
-        ["R02", 1, "010", "General-Purpose Register"],
-        ["R03", 1, "011", "General-Purpose Register"],
-        ["SP", 0, "100", "Stack Pointer"],
-        ["BP", 0, "101", "Base Pointer"],
-        ["FR", 0, "110", "Flag Register"],
-        ["IP", 0, "101", "Instruction Pointer"]
+        [
+            "R00",
+            1,
+            "000",
+            "General-Purpose Register"
+        ],
+        [
+            "R01",
+            1,
+            "001",
+            "General-Purpose Register"
+        ],
+        [
+            "R02",
+            1,
+            "010",
+            "General-Purpose Register"
+        ],
+        [
+            "R03",
+            1,
+            "011",
+            "General-Purpose Register"
+        ],
+        [
+            "SP",
+            0,
+            "100",
+            "Stack Pointer"
+        ],
+        [
+            "BP",
+            0,
+            "101",
+            "Base Pointer"
+        ],
+        [
+            "FR",
+            0,
+            "110",
+            "Flag Register"
+        ],
+        [
+            "IP",
+            0,
+            "101",
+            "Instruction Pointer"
+        ]
     ]
 }
