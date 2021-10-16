@@ -229,7 +229,8 @@ def divmod(operands, flag_register):
     """
     reg1, reg2 = prepare_arguments(operands[-2], operands[-1])
     result1 = div(operands, flag_register)
-    result2 = bin_clean(bin(twos_complement(reg1 % reg2, len(operands[-2])))).rjust(16, "0")
+    result2 = bin_clean(
+        bin(twos_complement(reg1 % reg2, len(operands[-2])))).rjust(16, "0")
     flag_register._state = bitarray("0" * 16)
     if len(result2) > 16:
         flag_register._state[12] = "1"  # Carry flag
@@ -514,7 +515,7 @@ def bin_clean(bin_str):
 functions_dictionary = {"load": load_store, "loadf": load_store, "loadi": load_store,
                         "store": load_store, "storef": load_store, "storei": load_store,
                         "dup": load_store, "dup2": load_store,
-                        "mov_low": mov_low, "mov_high": mov_high, "mov": mov,
+                        "mov_low": mov_low, "mov_high": mov_high, "push": mov,
                         "add": add, "addc": addc, "sub": sub, "inc": add, "dec": sub,
                         "mul": mul, "imul": mul, "div": div, "idiv": div,
                         "divmod": divmod, "idivmod": divmod,
@@ -523,4 +524,4 @@ functions_dictionary = {"load": load_store, "loadf": load_store, "loadi": load_s
                         "cmp": cmp, "cmpe": cmpe, "cmpb": cmpb,
                         "lsh": lsh, "rsh": rsh, "test": test}
 
-# divmod, idivmod, halt?, swap, rtd, dtr, push, pushf, pop,
+# halt?, swap, rtd: push, dtr, push, pushf, pop, call, ret
