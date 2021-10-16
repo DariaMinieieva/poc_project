@@ -1,77 +1,79 @@
-# There are 38 different instructions for RISC1 ISA (counting different operand types for the same instructions)
+# There are 38 different instructions for Stack ISA (counting different operand types for the same instructions)
 # This assembly program aims to meaningfully test all of them, with edge cases considered
 #########################################################################################
-mov $1022  # test comment from olichka
-mov $5
-push
+push $1022  # test comment from olichka
+push $5
+dtr
 load
 # Pushes 5 onto the stack, and then reads it from the stack to TOS
-loadf
+loadf #??????????????????
 load $1022
-mov $0
+push $0
 store $128
-mov $128
-storef
+push $128
+storef #??????????????????????
 pushf
-mov $12
-mov $15
+push $12
+push $15
 swap
-dup2
+dup $2
 dup
-push
-mov $1
+dtr
+push $1
 pop
-push
-popf
-mov $1
-mov $2
+dtr
+popf #?????????????????
+push $1
+push $2
 add
-mov $3
-mov $2
+push $3
+push $2
 sub
-mov $3
-mov $-1
+push $3
+push $-1
 mul
-mov $2
-mov $6
+push $2
+push $6
 div
-mov $6
-mov $3
+push $6
+push $3
 and
-mov $6
-mov $1
+push $6
+push $1
 or
-mov $6
-mov $3
+push $6
+push $3
 xor
-mov $15
+push $15
 not
-mov $2
-lsh $1
-rsh $1
+push $2
+mul $1
+div $1
 call $2
 add
 call
 call $2
 ret
-mov $2
-mov $2
-cmpe
-mov $2
-mov $3
-cmpe
-cmpe $0
-cmpe $5
-mov $2
-mov $1
-mov $2
-cmpb
-jc
+push $2
+push $2
+cmp
+push $2
+push $3
+cmp
+cmp $0
+cmp $5
+push $2
+push $1
+push $2
+dup $2
+dup $2
+cmp
+jc #????????????????????
 nop
-mov $0
+push $0
 jc $2
 jmp $2
 nop
-mov $69
+push $69
 out $1
 in $1
