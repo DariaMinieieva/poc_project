@@ -28,8 +28,6 @@ cmpe
 cmpe $5
 cmpb
 cmpb $5
-test
-test $5
 jmp $5
 in $5
 out $5

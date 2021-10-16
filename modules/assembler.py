@@ -83,6 +83,7 @@ class AssemblerCLI:
                 "Specify the valid instruction set architecture")
 
         # Read the program text
+
         with open(args.file, "r") as file:
             program_text = file.read()
 
@@ -122,6 +123,8 @@ class Assembler:
             self.instructions = defaultdict(list)
             for opcode, details in json.load(file)[isa].items():
                 self.instructions[details[0]].append([opcode, details[-1]])
+
+            # print(self.instructions)
 
         # Open the list of registers for this architecture and format it properly
         with open(os.path.join("modules", "registers.json"), "r") as file:
