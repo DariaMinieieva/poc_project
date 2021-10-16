@@ -514,8 +514,8 @@ def bin_clean(bin_str):
 
 functions_dictionary = {"load": load_store, "loadf": load_store, "loadi": load_store,
                         "store": load_store, "storef": load_store, "storei": load_store,
-                        "dup": load_store, "dup2": load_store,
-                        "mov_low": mov_low, "mov_high": mov_high, "push": mov,
+                        "dup": load_store, "dup2": load_store, "rtd": load_store,
+                        "mov_low": mov_low, "mov_high": mov_high, "mov": mov, "dtr": mov,
                         "add": add, "addc": addc, "sub": sub, "inc": add, "dec": sub,
                         "mul": mul, "imul": mul, "div": div, "idiv": div,
                         "divmod": divmod, "idivmod": divmod,
@@ -523,5 +523,3 @@ functions_dictionary = {"load": load_store, "loadf": load_store, "loadi": load_s
                         "xor": bit_xor, "not": bit_not,
                         "cmp": cmp, "cmpe": cmpe, "cmpb": cmpb,
                         "lsh": lsh, "rsh": rsh, "test": test}
-
-# halt?, swap, rtd: push, dtr, push, pushf, pop, call, ret
