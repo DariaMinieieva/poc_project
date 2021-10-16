@@ -229,7 +229,8 @@ def divmod(operands, flag_register):
     """
     reg1, reg2 = prepare_arguments(operands[-2], operands[-1])
     result1 = div(operands, flag_register)
-    result2 = bin_clean(bin(twos_complement(reg1 % reg2, len(operands[-2])))).rjust(16, "0")
+    result2 = bin_clean(
+        bin(twos_complement(reg1 % reg2, len(operands[-2])))).rjust(16, "0")
     flag_register._state = bitarray("0" * 16)
     if len(result2) > 16:
         flag_register._state[12] = "1"  # Carry flag
