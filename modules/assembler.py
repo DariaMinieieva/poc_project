@@ -138,8 +138,8 @@ class Assembler:
         self.instruction_size = instruction_sizes[isa]
         self.jump_label_allowed = ["jmp", "call",
                                    "je", "jne", "jl", "jle", "jg", "jge", "jc"]
-        self.mov_label_allowed = ["mov", "load", "store", "push", "mov_low", "mov_high", "cmp", "cmpe", "cmpb", "mul",
-                                  "div"]
+        self.mov_label_allowed = ["push", "load", "store", "rtd", "mov_low", "mov_high", "cmp", "cmpe", "cmpb", "mul",
+                                  "div"]  # mov -> push, push -> rtd
 
         self.binary_code = self.translate(program_text)
 
