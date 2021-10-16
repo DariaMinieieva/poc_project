@@ -515,7 +515,7 @@ class CPU:
             elif jmp_spec == "jc":
                 if operands_values[0] == bitarray("1" * 16):
                     should_jump = True
-            elif jmp_spec == "je":
+            elif jmp_spec == "je" or jmp_sprc == "jz":
                 should_jump = zero_flag
             elif jmp_spec == "jne":
                 should_jump = not zero_flag
@@ -527,6 +527,10 @@ class CPU:
                 should_jump = (sign_flag != overflow_flag)
             elif jmp_spec == "jle":
                 should_jump = (sign_flag != overflow_flag) or zero_flag
+            elif jmp_spec == "jo":
+                should_jump = overflow_flag
+            elif jmp_spec == "js":
+                should_jump = sign_flag
 
             # If the jump condition was satisfied, jump to the value specified with the operand
             if should_jump:
