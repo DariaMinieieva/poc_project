@@ -2,7 +2,7 @@
 # This assembly program aims to meaningfully test all of them, with edge cases considered
 #########################################################################################
 push $1022  # test comment from olichka
-push $5
+push $5 # test comment from dashulia
 dtr
 load
 # Pushes 5 onto the stack, and then reads it from the stack to TOS
